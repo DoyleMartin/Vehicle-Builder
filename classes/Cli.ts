@@ -188,8 +188,8 @@ class Cli {
           parseInt(answers.year),
           parseInt(answers.weight),
           parseInt(answers.topSpeed),
+          [],
           parseInt(answers.towingCapacity),
-          []
         );
         // push the truck to the vehicles array
         this.vehicles.push(truck);
@@ -239,26 +239,7 @@ class Cli {
           name: 'topSpeed',
           message: 'Enter Top Speed',
         },
-        {
-          type: 'input',
-          name: 'frontWheelDiameter',
-          message: 'Enter Front Wheel Diameter',
-        },
-        {
-          type: 'input',
-          name: 'frontWheelBrand',
-          message: 'Enter Front Wheel Brand',
-        },
-        {
-          type: 'input',
-          name: 'rearWheelDiameter',
-          message: 'Enter Rear Wheel Diameter',
-        },
-        {
-          type: 'input',
-          name: 'rearWheelBrand',
-          message: 'Enter Rear Wheel Brand',
-        },
+
       ])
       .then((answers) => {
         // TODO: Use the answers object to pass the required properties to the Motorbike constructor
@@ -301,15 +282,21 @@ class Cli {
       .then((answers) => {
         // TODO: check if the selected vehicle is the truck
           // TODO: if it is, log that the truck cannot tow itself then perform actions on the truck to allow the user to select another action
-        if (answers.vehicleToTow instanceof Truck) {
+        if (answers.vehicleToTow.Vin instanceof Truck) {
           console.log('Truck cannot tow itself');
           this.performActions();
+
+          // this.performActions();
         } else {
           // TODO: if it is not, tow the selected vehicle then perform actions on the truck to allow the user to select another action
           console.log(`Towing vehicle: ${answers.vehicleToTow.make} ${answers.vehicleToTow.model}`);
           this.performActions();
         }
       });
+  }
+  wheelie(): void {
+  console.log('Doing A Wheelie!!');
+  // this.performActions();
   }
 
   // method to perform actions on a vehicle
@@ -398,21 +385,30 @@ class Cli {
         // TODO: add statements to perform the tow action only if the selected vehicle is a truck. Call the findVehicleToTow method to find a vehicle to tow and pass the selected truck as an argument. After calling the findVehicleToTow method, you will need to return to avoid instantly calling the performActions method again since findVehicleToTow is asynchronous.          
         } else if (answers.action === 'Tow') {
           for (let i = 0; i < this.vehicles.length; i++) {
-
-        if (this.vehicles[i].vin === this.selectedVehicleVin) {
+          if (this.vehicles[i].vin === this.selectedVehicleVin)
           if (this.vehicles[i] instanceof Truck) {
             this.findVehicleToTow();
-            return;      
+            return;
+          } else  {
+            console.log('Only trucks can tow');
           }
-        } else if (answers.action === 'Wheelie') {
-          for (let i = 0; i < this.vehicles.length; i++) {
-            if (this.vehicles[i].vin === this.selectedVehicleVin) {
+          
+        }        
+
+          } else if (answers.action === 'Wheelie') {
+            for (let i = 0; i < this.vehicles.length; i++) {
+              if (this.vehicles[i].vin === this.selectedVehicleVin)
               if (this.vehicles[i] instanceof Motorbike) {
                 this.wheelie();
-              }
-            }
-          }
-        }
+              } else  {
+                console.log('Only motorbikes can do a wheelie');
+                }
+              }      
+
+
+
+
+
         // TODO: add statements to perform the wheelie action only if the selected vehicle is a motorbike
         } else if (answers.action === 'Select or create another vehicle') {
           // start the cli to return to the initial prompt if the user wants to select or create another vehicle
@@ -426,8 +422,13 @@ class Cli {
           // if the user does not want to exit, perform actions on the selected vehicle
           this.performActions();
         }
-      });
-  }
+      }
+      
+        
+  )};
+  
+  
+
   
 
   // method to start the cli
